@@ -1,0 +1,52 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  worker:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: '0.13.8'
+      - run: uv venv --python 3.12.14
+      - run: uv pip install -r requirements-dev.txt
+      - run: uv run --no-project ruff check .
+      - run: uv run --no-project ruff format --check .
+      - run: uv run --no-project python -B -m unittest discover -s tests -v
+  macos:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: '0.13.8'
+      - run: uv venv --python 3.12.14
+      - run: uv pip install -r requirements-dev.txt
+      - run: uv run --no-project python -B -m unittest discover -s tests -v
+      - run: xcrun swift-format lint --strict src/*.swift
+      - run: uv run --no-project python scripts/prepare_runtime.py
+      - run: uv run --no-project python build_app.py
+      - run: uv run --no-project python scripts/make_demo.py build/demo.pdf
+      - name: Verify the standalone worker and native renderer
+        run: |
+          'dist/PDF Light.app/Contents/Resources/Python/bin/python3.12' -I -B \
+            'dist/PDF Light.app/Contents/Resources/optimizer.py' \
+            --input build/demo.pdf --output build/demo-result.pdf --target 0.1 \
+            --repair --native-helper 'dist/PDF Light.app/Contents/MacOS/PDFLight'
+          uv run --no-project python -c "import json; r=json.load(open('build/demo-result.json')); assert r['target_met'] and r['native']['checked'] and not r['native']['bad_pages']"
+          codesign --verify --deep --strict 'dist/PDF Light.app'
