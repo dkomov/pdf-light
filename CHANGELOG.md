@@ -2,6 +2,13 @@
 
 Notable changes are recorded here. Version numbers describe project releases; Git history records actual commits.
 
+## 1.2.0 — 2026-11-16
+
+- Add an optional Say thanks button in the app footer and app menu, translated into all seven interface languages.
+- Open the author’s PayPal page in the default browser only on request.
+- Add PayPal support links to the English/Russian READMEs and the GitHub sponsor button.
+- PDF processing and free features are unchanged.
+
 ## 1.1.0 — 2026-11-16
 
 - Add system-language selection and instant switching between English, Russian, German, French, Spanish, Japanese, and Simplified Chinese.

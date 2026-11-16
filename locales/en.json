@@ -97,5 +97,7 @@
   "progress.macos": "Checking macOS rendering…",
   "error.cancelled": "Processing cancelled.",
   "error.native_unavailable": "The macOS rendering check is unavailable.",
-  "error.native_incomplete": "macOS did not render every page."
+  "error.native_incomplete": "macOS did not render every page.",
+  "action.thanks": "Say thanks",
+  "action.thanks.tooltip": "Support the author voluntarily. Opens PayPal in your browser."
 }

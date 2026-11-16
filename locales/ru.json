@@ -97,5 +97,7 @@
   "progress.macos": "Проверяю отображение в macOS…",
   "error.cancelled": "Обработка отменена.",
   "error.native_unavailable": "Проверка движком macOS недоступна.",
-  "error.native_incomplete": "macOS отрисовала не все страницы."
+  "error.native_incomplete": "macOS отрисовала не все страницы.",
+  "action.thanks": "Сказать спасибо",
+  "action.thanks.tooltip": "Добровольно поддержать автора. Откроется PayPal в браузере."
 }

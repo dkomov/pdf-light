@@ -97,5 +97,7 @@
   "progress.macos": "Vérification de l’affichage macOS…",
   "error.cancelled": "Traitement annulé.",
   "error.native_unavailable": "La vérification de l’affichage macOS est indisponible.",
-  "error.native_incomplete": "macOS n’a pas affiché toutes les pages."
+  "error.native_incomplete": "macOS n’a pas affiché toutes les pages.",
+  "action.thanks": "Dire merci",
+  "action.thanks.tooltip": "Soutenir librement l’auteur. Ouvre PayPal dans votre navigateur."
 }

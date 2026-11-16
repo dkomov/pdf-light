@@ -97,5 +97,7 @@
   "progress.macos": "macOS-Darstellung wird geprüft…",
   "error.cancelled": "Verarbeitung abgebrochen.",
   "error.native_unavailable": "Die macOS-Darstellungsprüfung ist nicht verfügbar.",
-  "error.native_incomplete": "macOS hat nicht alle Seiten gerendert."
+  "error.native_incomplete": "macOS hat nicht alle Seiten gerendert.",
+  "action.thanks": "Danke sagen",
+  "action.thanks.tooltip": "Den Entwickler freiwillig unterstützen. Öffnet PayPal im Browser."
 }

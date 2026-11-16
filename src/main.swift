@@ -203,6 +203,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     let optimizeButton = localizedButton("action.optimize")
     let saveButton = localizedButton("action.save")
     let revealButton = localizedButton("action.reveal")
+    let thanksButton = localizedButton("action.thanks")
     let status = localizedLabel("status.ready", 12, .medium)
     let detail = localizedLabel("detail.original_safe", 11, .regular, muted)
     let spinner = NSProgressIndicator()
@@ -239,6 +240,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         let appMenu = NSMenu()
         appItem.submenu = appMenu
         appMenu.addItem(withTitle: tr("menu.about"), action: #selector(about), keyEquivalent: "")
+        let thanksItem = appMenu.addItem(
+            withTitle: tr("action.thanks"), action: #selector(sayThanks), keyEquivalent: "")
+        thanksItem.target = self
         appMenu.addItem(.separator())
         appMenu.addItem(
             withTitle: tr("menu.quit"), action: #selector(NSApplication.terminate(_:)),
@@ -294,6 +298,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         target.setAccessibilityLabel(tr("target.accessibility"))
         drop.setAccessibilityLabel(tr("drop.accessibility"))
         repair.toolTip = tr("repair.tooltip")
+        thanksButton.toolTip = tr("action.thanks.tooltip")
         beforeAfter.setLabel(tr("preview.original"), forSegment: 0)
         beforeAfter.setLabel(tr("preview.result"), forSegment: 1)
         previousPage.setAccessibilityLabel(tr("preview.previous"))
@@ -425,10 +430,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             detail.widthAnchor.constraint(equalTo: left.widthAnchor),
         ])
         let local = localizedLabel("footer.local", 10, .medium, muted)
-        sidebar.addSubview(local)
+        thanksButton.bezelStyle = .inline
+        thanksButton.font = .systemFont(ofSize: 11)
+        thanksButton.image = NSImage(systemSymbolName: "heart", accessibilityDescription: nil)
+        thanksButton.imagePosition = .imageLeading
+        thanksButton.contentTintColor = accent
+        thanksButton.toolTip = tr("action.thanks.tooltip")
+        thanksButton.target = self
+        thanksButton.action = #selector(sayThanks)
+        let footer = stack([thanksButton, local], spacing: 8)
+        sidebar.addSubview(footer)
         NSLayoutConstraint.activate([
-            local.leadingAnchor.constraint(equalTo: left.leadingAnchor),
-            local.bottomAnchor.constraint(equalTo: sidebar.bottomAnchor, constant: -22),
+            footer.leadingAnchor.constraint(equalTo: left.leadingAnchor),
+            footer.trailingAnchor.constraint(lessThanOrEqualTo: left.trailingAnchor),
+            footer.bottomAnchor.constraint(equalTo: sidebar.bottomAnchor, constant: -22),
+            left.bottomAnchor.constraint(lessThanOrEqualTo: footer.topAnchor, constant: -16),
         ])
         let main = Panel(.white, radius: 18)
         root.addSubview(main)
@@ -843,9 +859,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     @objc func about() {
         let alert = NSAlert()
-        alert.messageText = "PDF Light 1.1.0"
+        alert.messageText = "PDF Light 1.2.0"
         alert.informativeText = tr("about.description")
         alert.runModal()
+    }
+    @objc func sayThanks() {
+        guard let url = URL(string: "https://www.paypal.com/donate/?hosted_button_id=V2NMP6RAC2EU2")
+        else { return }
+        NSWorkspace.shared.open(url)
     }
     func cleanup() {
         if let directory = jobDirectory { try? FileManager.default.removeItem(at: directory) }

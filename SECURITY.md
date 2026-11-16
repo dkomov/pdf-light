@@ -12,7 +12,7 @@ Include affected versions, platform, impact, reproduction steps and any proposed
 
 ## Boundaries
 
-PDF Light operates locally and has no document upload, analytics, update telemetry, or service credentials. Dependency setup and GitHub release downloads use the network; document processing does not.
+PDF Light operates locally and has no document upload, analytics, update telemetry, or service credentials. Dependency setup and GitHub release downloads use the network; document processing does not. The optional Say thanks button opens the author’s PayPal donation page in the default browser only when clicked. It does not include document information or initiate a payment.
 
 The app is not App Sandbox-confined. It invokes native PDF parsers and image decoders with the current user's privileges, so it is not a safe environment for deliberately hostile documents. Visual checks detect certain rendering changes; they are not malware inspection, sanitization, or proof that PDF JavaScript and attachments are absent.
 

@@ -97,5 +97,7 @@
   "progress.macos": "正在检查 macOS 显示效果…",
   "error.cancelled": "处理已取消。",
   "error.native_unavailable": "macOS 显示检查不可用。",
-  "error.native_incomplete": "macOS 未能渲染所有页面。"
+  "error.native_incomplete": "macOS 未能渲染所有页面。",
+  "action.thanks": "表达感谢",
+  "action.thanks.tooltip": "自愿支持作者。将在浏览器中打开 PayPal。"
 }

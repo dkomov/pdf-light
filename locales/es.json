@@ -97,5 +97,7 @@
   "progress.macos": "Revisando la visualización en macOS…",
   "error.cancelled": "Proceso cancelado.",
   "error.native_unavailable": "La comprobación de macOS no está disponible.",
-  "error.native_incomplete": "macOS no pudo representar todas las páginas."
+  "error.native_incomplete": "macOS no pudo representar todas las páginas.",
+  "action.thanks": "Dar las gracias",
+  "action.thanks.tooltip": "Apoyar al autor de forma voluntaria. Abre PayPal en el navegador."
 }
