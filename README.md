@@ -8,7 +8,7 @@
 
 PDF Light makes PDFs lighter, checks their text and appearance, and can repair a narrowly defined mask issue that affects native macOS rendering. Drag in a document, choose a target size, compare the result, and save a separate copy. Processing happens on your Mac, with no account, uploads, analytics, or cloud service.
 
-![PDF Light optimizing an original synthetic document](docs/images/english.png)
+![PDF Light optimizing an original synthetic document](docs/images/english.jpg)
 
 [Download / releases](https://github.com/dkomov/pdf-light/releases) · [Build from source](docs/DEVELOPMENT.md) · [How it works](docs/ALGORITHMS.md) · [The story](docs/STORY.md) · [Русский](docs/README.ru.md)
 

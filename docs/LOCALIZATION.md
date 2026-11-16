@@ -16,4 +16,4 @@ The UI uses the system numeric locale in System language mode, and the selected 
 
 Adding a language requires a catalog, entries in `Localization.supported`, `Localization.names`, Python `SUPPORTED`, and the builder's `LANGUAGES`/bundle declarations; update the matching tests and documentation. UI labels are bound to a shared localization service. Dynamic state is refreshed separately so changing language does not discard a loaded document or result.
 
-![Japanese interface](images/japanese.png)
+![Japanese interface](images/japanese.jpg)
