@@ -99,5 +99,9 @@
   "error.native_unavailable": "La comprobación de macOS no está disponible.",
   "error.native_incomplete": "macOS no pudo representar todas las páginas.",
   "action.thanks": "Dar las gracias",
-  "action.thanks.tooltip": "Apoyar al autor de forma voluntaria. Abre PayPal en el navegador."
+  "action.thanks.tooltip": "Apoyar al autor de forma voluntaria. Abre PayPal en el navegador.",
+  "theme.system": "Tema del sistema",
+  "theme.light": "Claro",
+  "theme.dark": "Oscuro",
+  "theme.accessibility": "Apariencia"
 }

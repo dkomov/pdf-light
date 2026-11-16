@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">PDF Light — less weight, same story</title>
+  <desc id="desc">Illustrative example: a PDF reduced from 13.8 MB to 8.5 MB, 38 percent smaller. Actual results depend on the document.</desc>
+  <rect width="1200" height="620" rx="28" fill="#F6F5F0"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+    <path d="M66 53h23l14 14v35H66z M89 53v15h14" fill="none" stroke="#4B4FD8" stroke-width="3" stroke-linejoin="round"/>
+    <text x="122" y="88" font-size="32" font-weight="700" fill="#223232">PDF Light</text>
+    <text x="1134" y="84" text-anchor="end" font-size="16" letter-spacing="1.5" fill="#667270">LOCAL · MACOS · OPEN SOURCE</text>
+    <text x="64" y="193" font-size="62" letter-spacing="-2" font-weight="700" fill="#223232">Less weight. Same story.</text>
+    <text x="66" y="237" font-size="23" fill="#667270">Make room for your ideas.</text>
+    <rect x="64" y="288" width="492" height="209" rx="22" fill="#FFFFFF"/>
+    <rect x="644" y="288" width="492" height="209" rx="22" fill="#25263C"/>
+    <text x="96" y="333" font-size="16" letter-spacing="2" fill="#667270">ORIGINAL</text>
+    <text x="676" y="333" font-size="16" letter-spacing="2" fill="#B6B7D1">OPTIMIZED</text>
+    <text x="94" y="439" font-size="91" letter-spacing="-4" font-weight="600" fill="#223232">13.8<tspan font-size="36" letter-spacing="0" dx="14">MB</tspan></text>
+    <text x="674" y="439" font-size="91" letter-spacing="-4" font-weight="600" fill="#FFFFFF">8.5<tspan font-size="36" letter-spacing="0" dx="14">MB</tspan></text>
+    <path d="M579 394h42m-14-14 14 14-14 14" fill="none" stroke="#4B4FD8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="958" y="312" width="153" height="31" rx="15.5" fill="#43445D"/>
+    <text x="1034" y="333" text-anchor="middle" font-size="14" font-weight="600" fill="#D6F1DF">38% SMALLER</text>
+    <text x="64" y="558" font-size="16" fill="#667270">Illustrative example · Results vary by document.</text>
+    <text x="1136" y="558" text-anchor="end" font-size="16" fill="#667270">Your files stay on your Mac.</text>
+  </g>
+</svg>

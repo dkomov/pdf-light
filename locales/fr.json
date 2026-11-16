@@ -99,5 +99,9 @@
   "error.native_unavailable": "La vérification de l’affichage macOS est indisponible.",
   "error.native_incomplete": "macOS n’a pas affiché toutes les pages.",
   "action.thanks": "Dire merci",
-  "action.thanks.tooltip": "Soutenir librement l’auteur. Ouvre PayPal dans votre navigateur."
+  "action.thanks.tooltip": "Soutenir librement l’auteur. Ouvre PayPal dans votre navigateur.",
+  "theme.system": "Thème système",
+  "theme.light": "Clair",
+  "theme.dark": "Sombre",
+  "theme.accessibility": "Apparence"
 }

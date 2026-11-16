@@ -2,6 +2,13 @@
 
 Notable changes are recorded here. Version numbers describe project releases; Git history records actual commits.
 
+## 1.3.0 — 2026-11-16
+
+- Follow the system appearance by default; add a persisted System/Light/Dark picker in the preview header.
+- Adapt text, panels, drop zone and viewer surround to dark mode without altering PDF page colors.
+- Move Say thanks into a regular button at the lower left of the result panel, aligned with Save a copy on the right.
+- Localize appearance controls into all seven languages and document Apple signing/notarization prerequisites.
+
 ## 1.2.0 — 2026-11-16
 
 - Add an optional Say thanks button in the app footer and app menu, translated into all seven interface languages.

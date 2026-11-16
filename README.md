@@ -8,7 +8,9 @@
 
 PDF Light makes PDFs lighter, checks their text and appearance, and can repair a narrowly defined mask issue that affects native macOS rendering. Drag in a document, choose a target size, compare the result, and save a separate copy. Processing happens on your Mac, with no account, uploads, analytics, or cloud service.
 
-![PDF Light optimizing an original synthetic document](docs/images/english.jpg)
+![PDF Light — illustrative example: 13.8 MB → 8.5 MB](docs/images/preview.svg)
+
+*Illustrative sizes, not a benchmark. Results depend on the document.* See the actual app in [light](docs/images/english.jpg) and [dark](docs/images/dark-english.jpg) appearance.
 
 [Download / releases](https://github.com/dkomov/pdf-light/releases) · [Build from source](docs/DEVELOPMENT.md) · [How it works](docs/ALGORITHMS.md) · [The story](docs/STORY.md) · [Русский](docs/README.ru.md)
 
@@ -19,6 +21,7 @@ PDF Light makes PDFs lighter, checks their text and appearance, and can repair a
 - Offers an additional JPEG photo compression mode for screen use.
 - Compares every page with PDFium, checks extracted text and page dimensions, and checks rendering through macOS CoreGraphics.
 - Provides original/result previews, a target-size indicator, cancellation, and explicit Save a copy.
+- Follows your system appearance by default, with instant Light/Dark overrides in the preview header.
 - Uses your preferred supported system language automatically. Change it immediately in the **Language** menu.
 
 | Language | Available |
@@ -83,7 +86,7 @@ This project began as a designer's attempt to get a report below a 9 MB upload l
 
 ## Say thanks
 
-If PDF Light helped you, you can [say thanks via PayPal](https://www.paypal.com/donate/?hosted_button_id=V2NMP6RAC2EU2). Support is entirely optional; every feature remains free. The app’s [heart button](docs/images/say-thanks.jpg) opens the same page in your browser.
+If PDF Light helped you, you can [say thanks via PayPal](https://www.paypal.com/donate/?hosted_button_id=V2NMP6RAC2EU2). Support is entirely optional; every feature remains free. The app’s heart button sits at the lower left of the result panel, opposite Save a copy, and opens the same page in your browser.
 
 ## License
 

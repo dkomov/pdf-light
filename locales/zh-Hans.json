@@ -99,5 +99,9 @@
   "error.native_unavailable": "macOS 显示检查不可用。",
   "error.native_incomplete": "macOS 未能渲染所有页面。",
   "action.thanks": "表达感谢",
-  "action.thanks.tooltip": "自愿支持作者。将在浏览器中打开 PayPal。"
+  "action.thanks.tooltip": "自愿支持作者。将在浏览器中打开 PayPal。",
+  "theme.system": "跟随系统",
+  "theme.light": "浅色",
+  "theme.dark": "深色",
+  "theme.accessibility": "外观"
 }

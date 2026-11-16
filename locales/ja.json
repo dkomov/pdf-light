@@ -99,5 +99,9 @@
   "error.native_unavailable": "macOSでの表示検証は利用できません。",
   "error.native_incomplete": "macOSですべてのページを描画できませんでした。",
   "action.thanks": "感謝を伝える",
-  "action.thanks.tooltip": "任意の寄付で作者を応援できます。ブラウザでPayPalを開きます。"
+  "action.thanks.tooltip": "任意の寄付で作者を応援できます。ブラウザでPayPalを開きます。",
+  "theme.system": "システム設定",
+  "theme.light": "ライト",
+  "theme.dark": "ダーク",
+  "theme.accessibility": "外観"
 }

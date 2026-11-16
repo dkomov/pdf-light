@@ -53,3 +53,7 @@ Forced termination, OS crashes, or power loss can leave temporary files behind; 
 `PDFLight --render-check input.pdf output-directory` invokes the executable without launching the app UI. It renders every page with CoreGraphics to PNG. Python compares those images to PDFium reference images after resampling and blur to reduce antialiasing differences. It flags likely rendering disagreement; it neither clears nor directly verifies Finder's Quick Look cache.
 
 `PDFLight --localization-self-test` checks preferred-language selection and decimal input parsing without UI interaction. `PDFLight --open file.pdf` opens a document in the UI.
+
+## Appearance
+
+The app defaults to the system appearance (`NSApp.appearance = nil`). The header picker can override it with Aqua or Dark Aqua; `PDFLightTheme` stores the preference. AppKit semantic text colors and dynamic surface colors resolve against the effective appearance. Layer-backed panels refresh their CGColor values when that appearance changes, and the PDF viewer updates only its surround. Theme changes do not reload or modify the PDF, change the selected language, or interrupt a worker.

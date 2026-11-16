@@ -99,5 +99,9 @@
   "error.native_unavailable": "Проверка движком macOS недоступна.",
   "error.native_incomplete": "macOS отрисовала не все страницы.",
   "action.thanks": "Сказать спасибо",
-  "action.thanks.tooltip": "Добровольно поддержать автора. Откроется PayPal в браузере."
+  "action.thanks.tooltip": "Добровольно поддержать автора. Откроется PayPal в браузере.",
+  "theme.system": "Тема системы",
+  "theme.light": "Светлая",
+  "theme.dark": "Тёмная",
+  "theme.accessibility": "Оформление"
 }

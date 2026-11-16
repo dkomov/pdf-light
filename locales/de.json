@@ -99,5 +99,9 @@
   "error.native_unavailable": "Die macOS-Darstellungsprüfung ist nicht verfügbar.",
   "error.native_incomplete": "macOS hat nicht alle Seiten gerendert.",
   "action.thanks": "Danke sagen",
-  "action.thanks.tooltip": "Den Entwickler freiwillig unterstützen. Öffnet PayPal im Browser."
+  "action.thanks.tooltip": "Den Entwickler freiwillig unterstützen. Öffnet PayPal im Browser.",
+  "theme.system": "Systemdesign",
+  "theme.light": "Hell",
+  "theme.dark": "Dunkel",
+  "theme.accessibility": "Erscheinungsbild"
 }

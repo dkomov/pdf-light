@@ -73,11 +73,40 @@ if CommandLine.arguments.contains("--localization-self-test") {
     exit(0)
 }
 
-let ink = NSColor(calibratedRed: 0.14, green: 0.17, blue: 0.19, alpha: 1)
-let muted = NSColor(calibratedRed: 0.43, green: 0.46, blue: 0.49, alpha: 1)
-let accent = NSColor(calibratedRed: 0.28, green: 0.31, blue: 0.85, alpha: 1)
-let cream = NSColor(calibratedRed: 0.965, green: 0.961, blue: 0.949, alpha: 1)
-let lineColor = NSColor(calibratedRed: 0.86, green: 0.87, blue: 0.85, alpha: 1)
+func adaptiveColor(_ light: NSColor, _ dark: NSColor) -> NSColor {
+    NSColor(name: nil) { appearance in
+        appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua ? dark : light
+    }
+}
+
+let ink = NSColor.labelColor
+let muted = NSColor.secondaryLabelColor
+let accent = adaptiveColor(
+    NSColor(calibratedRed: 0.28, green: 0.31, blue: 0.85, alpha: 1),
+    NSColor(calibratedRed: 0.63, green: 0.65, blue: 1, alpha: 1))
+let cream = adaptiveColor(
+    NSColor(calibratedRed: 0.965, green: 0.961, blue: 0.949, alpha: 1),
+    NSColor(calibratedWhite: 0.105, alpha: 1))
+let panelColor = adaptiveColor(.white, NSColor(calibratedWhite: 0.15, alpha: 1))
+let canvasColor = adaptiveColor(
+    NSColor(calibratedWhite: 0.945, alpha: 1), NSColor(calibratedWhite: 0.085, alpha: 1))
+let dropColor = adaptiveColor(
+    .white.withAlphaComponent(0.6), NSColor(calibratedWhite: 0.17, alpha: 1))
+let lineColor = adaptiveColor(
+    NSColor(calibratedRed: 0.86, green: 0.87, blue: 0.85, alpha: 1),
+    NSColor(calibratedWhite: 0.34, alpha: 1))
+
+enum Theme: String, CaseIterable {
+    case system, light, dark
+
+    var appearance: NSAppearance? {
+        switch self {
+        case .system: return nil
+        case .light: return NSAppearance(named: .aqua)
+        case .dark: return NSAppearance(named: .darkAqua)
+        }
+    }
+}
 
 func label(
     _ text: String, _ size: CGFloat = 13, _ weight: NSFont.Weight = .regular,
@@ -102,14 +131,37 @@ func stack(_ views: [NSView], vertical: Bool = true, spacing: CGFloat = 12) -> N
 }
 
 final class Panel: NSView {
+    private let fillColor: NSColor
+
     init(_ color: NSColor, radius: CGFloat = 16) {
+        fillColor = color
         super.init(frame: .zero)
         wantsLayer = true
-        layer?.backgroundColor = color.cgColor
         layer?.cornerRadius = radius
         translatesAutoresizingMaskIntoConstraints = false
+        refreshColor()
     }
     required init?(coder: NSCoder) { fatalError() }
+
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        refreshColor()
+    }
+
+    private func refreshColor() {
+        effectiveAppearance.performAsCurrentDrawingAppearance {
+            layer?.backgroundColor = fillColor.cgColor
+        }
+    }
+}
+
+final class ThemedPDFView: PDFView {
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        // Change only the viewer surround; PDF page colors remain document-defined.
+        backgroundColor = canvasColor
+        needsDisplay = true
+    }
 }
 
 final class DropZone: NSView {
@@ -146,12 +198,16 @@ final class DropZone: NSView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         let path = NSBezierPath(roundedRect: bounds.insetBy(dx: 1, dy: 1), xRadius: 14, yRadius: 14)
-        (hover ? accent.withAlphaComponent(0.06) : NSColor.white.withAlphaComponent(0.6)).setFill()
+        (hover ? accent.withAlphaComponent(0.12) : dropColor).setFill()
         path.fill()
         (hover ? accent : lineColor).setStroke()
         path.lineWidth = 1.5
         path.setLineDash([5, 4], count: 2, phase: 0)
         path.stroke()
+    }
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        needsDisplay = true
     }
     override func mouseDown(with event: NSEvent) { if enabled { onClick?() } }
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
@@ -208,7 +264,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     let detail = localizedLabel("detail.original_safe", 11, .regular, muted)
     let spinner = NSProgressIndicator()
     let cancel = localizedButton("action.cancel")
-    let preview = PDFView()
+    let preview = ThemedPDFView()
+    let themePicker = NSPopUpButton()
+    var theme =
+        Theme(rawValue: UserDefaults.standard.string(forKey: "PDFLightTheme") ?? "system")
+        ?? .system
     let emptyView = Panel(NSColor.clear)
     let previewTitle = localizedLabel("preview.title", 13, .medium)
     let pageCounter = label("", 11, .regular, muted)
@@ -223,6 +283,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     let nextPage = NSButton()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.appearance = theme.appearance
         setupMenu()
         setupWindow()
         if let file = pendingFile { load(file) }
@@ -299,6 +360,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         drop.setAccessibilityLabel(tr("drop.accessibility"))
         repair.toolTip = tr("repair.tooltip")
         thanksButton.toolTip = tr("action.thanks.tooltip")
+        refreshThemePicker()
         beforeAfter.setLabel(tr("preview.original"), forSegment: 0)
         beforeAfter.setLabel(tr("preview.result"), forSegment: 1)
         previousPage.setAccessibilityLabel(tr("preview.previous"))
@@ -348,7 +410,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         window.backgroundColor = cream
         window.minSize = NSSize(width: 1000, height: 780)
         window.delegate = self
-        window.appearance = NSAppearance(named: .aqua)
         guard let root = window.contentView else { return }
         let sidebar = NSView()
         sidebar.translatesAutoresizingMaskIntoConstraints = false
@@ -430,23 +491,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             detail.widthAnchor.constraint(equalTo: left.widthAnchor),
         ])
         let local = localizedLabel("footer.local", 10, .medium, muted)
-        thanksButton.bezelStyle = .inline
-        thanksButton.font = .systemFont(ofSize: 11)
+        thanksButton.bezelStyle = .rounded
+        thanksButton.controlSize = .large
         thanksButton.image = NSImage(systemSymbolName: "heart", accessibilityDescription: nil)
         thanksButton.imagePosition = .imageLeading
         thanksButton.contentTintColor = accent
         thanksButton.toolTip = tr("action.thanks.tooltip")
         thanksButton.target = self
         thanksButton.action = #selector(sayThanks)
-        let footer = stack([thanksButton, local], spacing: 8)
-        sidebar.addSubview(footer)
+        sidebar.addSubview(local)
         NSLayoutConstraint.activate([
-            footer.leadingAnchor.constraint(equalTo: left.leadingAnchor),
-            footer.trailingAnchor.constraint(lessThanOrEqualTo: left.trailingAnchor),
-            footer.bottomAnchor.constraint(equalTo: sidebar.bottomAnchor, constant: -22),
-            left.bottomAnchor.constraint(lessThanOrEqualTo: footer.topAnchor, constant: -16),
+            local.leadingAnchor.constraint(equalTo: left.leadingAnchor),
+            local.bottomAnchor.constraint(equalTo: sidebar.bottomAnchor, constant: -22),
+            left.bottomAnchor.constraint(lessThanOrEqualTo: local.topAnchor, constant: -16),
         ])
-        let main = Panel(.white, radius: 18)
+        let main = Panel(panelColor, radius: 18)
         root.addSubview(main)
         NSLayoutConstraint.activate([
             main.leadingAnchor.constraint(equalTo: sidebar.trailingAnchor),
@@ -461,17 +520,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         beforeAfter.controlSize = .small
         let head = stack([previewTitle, beforeAfter], vertical: false, spacing: 16)
         main.addSubview(head)
+        themePicker.controlSize = .small
+        themePicker.target = self
+        themePicker.action = #selector(changeTheme)
+        themePicker.translatesAutoresizingMaskIntoConstraints = false
+        refreshThemePicker()
+        main.addSubview(themePicker)
         NSLayoutConstraint.activate([
             head.leadingAnchor.constraint(equalTo: main.leadingAnchor, constant: 22),
             head.topAnchor.constraint(equalTo: main.topAnchor, constant: 18),
+            themePicker.trailingAnchor.constraint(equalTo: main.trailingAnchor, constant: -22),
+            themePicker.centerYAnchor.constraint(equalTo: head.centerYAnchor),
+            themePicker.leadingAnchor.constraint(
+                greaterThanOrEqualTo: head.trailingAnchor, constant: 16),
         ])
-        let canvas = Panel(NSColor(calibratedWhite: 0.945, alpha: 1), radius: 10)
+        let canvas = Panel(canvasColor, radius: 10)
         main.addSubview(canvas)
         preview.translatesAutoresizingMaskIntoConstraints = false
         preview.autoScales = true
         preview.displayMode = .singlePage
         preview.displayBox = .cropBox
-        preview.backgroundColor = NSColor(calibratedWhite: 0.945, alpha: 1)
+        preview.backgroundColor = canvasColor
         canvas.addSubview(preview)
         canvas.addSubview(emptyView)
         let emptyIcon = NSImageView(
@@ -534,11 +603,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         revealButton.target = self
         revealButton.action = #selector(reveal)
         revealButton.isHidden = true
-        let actions = stack([saveButton, revealButton], vertical: false, spacing: 14)
+        let actions = stack([revealButton, saveButton], vertical: false, spacing: 14)
         main.addSubview(actions)
+        thanksButton.translatesAutoresizingMaskIntoConstraints = false
+        main.addSubview(thanksButton)
         NSLayoutConstraint.activate([
             actions.trailingAnchor.constraint(equalTo: main.trailingAnchor, constant: -22),
             actions.bottomAnchor.constraint(equalTo: main.bottomAnchor, constant: -15),
+            thanksButton.leadingAnchor.constraint(equalTo: main.leadingAnchor, constant: 22),
+            thanksButton.centerYAnchor.constraint(equalTo: saveButton.centerYAnchor),
+            thanksButton.trailingAnchor.constraint(
+                lessThanOrEqualTo: actions.leadingAnchor, constant: -14),
         ])
         drop.onClick = { [weak self] in self?.chooseFile() }
         drop.onDrop = { [weak self] url in self?.load(url) }
@@ -547,6 +622,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         window.center()
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    func refreshThemePicker() {
+        themePicker.removeAllItems()
+        themePicker.addItems(withTitles: Theme.allCases.map { tr("theme." + $0.rawValue) })
+        themePicker.selectItem(at: Theme.allCases.firstIndex(of: theme) ?? 0)
+        themePicker.setAccessibilityLabel(tr("theme.accessibility"))
+        themePicker.toolTip = tr("theme.accessibility")
+    }
+
+    @objc func changeTheme() {
+        guard Theme.allCases.indices.contains(themePicker.indexOfSelectedItem) else { return }
+        theme = Theme.allCases[themePicker.indexOfSelectedItem]
+        UserDefaults.standard.set(theme.rawValue, forKey: "PDFLightTheme")
+        NSApp.appearance = theme.appearance
     }
 
     @objc func chooseFile() {
@@ -859,7 +949,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     @objc func about() {
         let alert = NSAlert()
-        alert.messageText = "PDF Light 1.2.0"
+        alert.messageText = "PDF Light 1.3.0"
         alert.informativeText = tr("about.description")
         alert.runModal()
     }

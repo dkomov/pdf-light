@@ -7,7 +7,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 LANGUAGES = ["en", "ru", "de", "fr", "es", "ja", "zh-Hans"]
 
 
@@ -125,7 +125,7 @@ def main():
         "CFBundleIdentifier": "com.dkomov.pdflight",
         "CFBundleExecutable": "PDFLight",
         "CFBundlePackageType": "APPL",
-        "CFBundleVersion": "3",
+        "CFBundleVersion": "4",
         "CFBundleShortVersionString": VERSION,
         "LSMinimumSystemVersion": "14.0",
         "NSHighResolutionCapable": True,

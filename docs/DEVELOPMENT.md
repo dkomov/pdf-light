@@ -53,10 +53,10 @@ The demo is original vector artwork with live text, intentionally overprecise co
 
 1. Update version in `build_app.py`, the About panel in `src/main.swift`, bundle build number, and `CHANGELOG.md`.
 2. Review dependency changes and their licenses; build from a clean runtime. `build_app.py` fails if required license files are missing.
-3. Run tests, style checks, native self-test, and end-to-end integration checks. Check all seven UI languages, including long labels, error states, and comma input.
+3. Run tests, style checks, native self-test, and end-to-end integration checks. Check all seven UI languages, including long labels, error states, and comma input. Check System/Light/Dark appearance, persistence after restart, and PDF page colors.
 4. Copy the `.app` to a different path. Run its bundled Python with `-I -B` and a clean environment; optimize the generated demo. Verify `codesign --verify --deep --strict` afterwards. Bytecode must not modify a signed bundle.
 5. Archive with macOS `ditto -c -k --sequesterRsrc --keepParent 'dist/PDF Light.app' dist/PDF-Light-<version>-macOS-arm64.zip`. Record `shasum -a 256` in `SHA256SUMS.txt`.
 6. Tag the tested commit and create a GitHub release containing the archive, checksum, changes, platform requirements, and explicit signing/notarization status. Never include a private PDF, environment directory, credential, or diagnostic report containing user paths.
 7. Verify the remote source, workflow results, download contents, and checksum before announcing the release.
 
-Developer ID signing and Apple notarization require the maintainer's credentials and are not automated by this repository. Do not commit certificates, tokens, provisioning data, or passwords.
+Developer ID signing and Apple notarization require the maintainer's credentials and are not automated by this repository. See [Signing and notarization](SIGNING.md) for the distribution workflow. Do not commit certificates, tokens, provisioning data, or passwords.

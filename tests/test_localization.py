@@ -44,7 +44,7 @@ class LocalizationTests(unittest.TestCase):
             if path.suffix in (".swift", ".py"):
                 used.update(
                     re.findall(
-                        r"[\'\"]((?:app|drop|file|target|unit|mode|repair|action|status|detail|footer|preview|metrics|checks|menu|language|about|error|progress)\.[a-z_.]+)[\'\"]",
+                        r"[\'\"]((?:app|drop|file|target|unit|mode|repair|action|status|detail|footer|preview|metrics|checks|menu|language|theme|about|error|progress)\.[a-z_.]+)[\'\"]",
                         path.read_text(),
                     )
                 )

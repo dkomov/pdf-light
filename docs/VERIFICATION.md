@@ -1,4 +1,16 @@
-# Verification record: 1.1.0
+# Verification records
+
+## 1.3.0
+
+Local release preparation on 2026-11-16, Apple Silicon macOS:
+
+- The 13 Python tests, lint/format checks, standalone build, isolated dependency imports, native localization self-test and deep signature verification passed.
+- System appearance was the initial default. Light and Dark switches updated a loaded result immediately while retaining the PDF's page colors and optimization results.
+- All seven languages localized the appearance picker while preserving its selection. Dark persisted after quitting and reopening the app. System appearance was restored at the end. Live changes to the operating system's global theme were not exercised.
+- The synthetic demo was optimized and saved through the native dialog. The thanks button remained at the lower left and Save a copy at the lower right, with Show in Finder between them after saving.
+- Screenshots show actual synthetic-demo results. The separate GitHub cover's 13.8 MB → 8.5 MB figures are illustrative, not a measured benchmark.
+
+## 1.1.0
 
 Local release preparation, 2026-11-16, Apple Silicon macOS. This record describes observed checks, not a certification of all PDF features.
 
